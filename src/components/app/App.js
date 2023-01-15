@@ -1,15 +1,28 @@
-import logo from './renue-logo.png';
-import './App.css';
+import {useState} from "react";
+import ProductsPanel from "../productsPanel/ProductsPanel";
+import ControlPanel from "../controlPanel/ControlPanel";
 
-function App() {
+const App = () => {
+  const [coinBalance, setCoin] = useState(0);
+
+  const onCoinChanged = (total) => {
+    setCoin(total);
+  };
+
+  const onBuy = (price) => {
+    setCoin(coinBalance - price);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="renue_logo" />
-        <p>
-          test_Renue by Rinat_K
-        </p>
-      </header>
+    <div className="container">
+			<div className="row my-3">
+				<div className="col-8">
+					<ProductsPanel coinBalance={coinBalance} onBuy={onBuy} />
+				</div>
+				<div className="col-4">
+					<ControlPanel coinBalance={coinBalance} onCoinChanged={onCoinChanged} />
+				</div>
+			</div>
     </div>
   );
 }
