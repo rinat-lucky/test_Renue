@@ -7,7 +7,13 @@ const Item = ({ product, coinBalance, onBuy }) => {
 
 	const [availableCount, setAvailableCount] = useState(availableUnits);
 
-	const availablePrice = name && (coinBalance >= price);
+	const availablePrice = coinBalance >= price;
+
+	const handleClick = () => {
+		if (price > coinBalance) return;
+		onBuy(product);
+		setAvailableCount(availableCount - 1);
+	};
 
   return (
     <Card className='text-center'>
@@ -16,11 +22,7 @@ const Item = ({ product, coinBalance, onBuy }) => {
 				<Card.Title>{name}</Card.Title>
 				<Card.Text>{`${price} рублей`}</Card.Text>
 				<Button
-					onClick={() => {
-						if (price > coinBalance) return;
-						onBuy(price);
-						setAvailableCount(availableCount - 1);
-					}}
+					onClick={handleClick}
 					disabled={!availablePrice || availableCount < 1}
 					style={{'width': '95%'}}
 				>
@@ -30,4 +32,5 @@ const Item = ({ product, coinBalance, onBuy }) => {
     </Card>
   );
 }
+
 export default Item;
