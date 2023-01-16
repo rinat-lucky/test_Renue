@@ -42,23 +42,33 @@ const ControlPanel = (props) => {
     const shopList = makeShopList(shoppingList);
 
     return (
-      <Row xs={1} md={2} className="g-3">
-        <Col>
-          <Card>
-            <Card.Header className='text-center'>Список покупок</Card.Header>
-            <ListGroup variant="flush" as="ol" numbered>
-              {shopList.map((item) => {
-                return (
-                  <ListGroup.Item key={item[0]} className="d-flex justify-content-between align-items-center" as="li">
-                    <div className='ms-2 me-auto'>{item[0]}</div>  
-                    <Badge>{item[1]}</Badge>
-                  </ListGroup.Item>
-                );
-              })}
-            </ListGroup>
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <Card.Header className='text-center'>Список покупок</Card.Header>
+        <ListGroup variant="flush" as="ol" numbered>
+          {shopList.map((item) => {
+            return (
+              <ListGroup.Item key={item[0]} className="d-flex justify-content-between align-items-center" as="li">
+                <div className='ms-2 me-auto'>{item[0]}</div>  
+                <Badge>{item[1]}</Badge>
+              </ListGroup.Item>
+            );
+          })}
+        </ListGroup>
+      </Card>
+    );
+  };
+
+  const renderRefund = () => {
+    return (
+      <Card>
+        <Card.Header className='text-center'>Сдача: {'500 рублей'}</Card.Header>
+        <ListGroup variant="flush">
+          <ListGroup.Item className="d-flex justify-content-between align-items-center">
+            <div>{'100'} рублей</div>  
+            <Badge>{'5'}</Badge>
+          </ListGroup.Item>
+        </ListGroup>
+      </Card>
     );
   };
 
@@ -81,7 +91,15 @@ const ControlPanel = (props) => {
             <div>Доступная сумма: <span className="fw-bold">{total}</span> руб.</div>
             <RefundButton toRefund={total} />
           </Alert>
-          {renderShopList()}
+
+          <Row xs={1} md={2} className="g-3">
+            <Col>
+              {renderShopList()}
+            </Col>  
+            <Col>  
+              {renderRefund()}
+            </Col>
+          </Row>
         </div>
       </div>
     </div>

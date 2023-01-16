@@ -1,6 +1,5 @@
 class VendingAPI {
   _apiBase = 'http://localhost:3001/';
-  // _apiBase = process.env.NODE_ENV === 'development' ? 'http://localhost:3001/' : 'https://rinat-lucky.github.io/';
   
   getResource = async (url) => {
     const res = await fetch(url);
