@@ -1,25 +1,11 @@
-import { useState, useEffect } from "react";
-import VendingAPI from "../../api/VendingAPI";
+import { useState } from "react";
 import ProductsPanel from "../productsPanel/ProductsPanel";
 import ControlPanel from "../controlPanel/ControlPanel";
 
 const App = () => {
   const [coinBalance, setBalance] = useState(0);
-  const [coinsToPay, setCoinsToPay] = useState([]);
-  const [coinsToRefund, setCoinsToRefund] = useState([]);
-  const [products, setProducts] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
-
-  const api = new VendingAPI();
-
-	useEffect(() => {
-    const fetchData = async () => {
-      setProducts(await api.getProducts());
-      setCoinsToPay(await api.getCoinsToPay());
-      setCoinsToRefund(await api.getCoinsToRefund());
-    } 
-    fetchData();
-  }, []);
+  const [refundState, setRefundState] = useState(null);
 
   const onChangeBalance = (total) => {
     setBalance(total);
@@ -35,18 +21,18 @@ const App = () => {
 			<div className="row my-3">
 				<div className="col-7">
 					<ProductsPanel
-            coinBalance={coinBalance}
             onBuy={onBuy}
-            products={products}
+            coinBalance={coinBalance}
+            refundState={refundState}
           />
 				</div>
 				<div className="col-5">
 					<ControlPanel
             coinBalance={coinBalance}
-            onChangeBalance={onChangeBalance}
-            coinsToPay={coinsToPay}
-            coinsToRefund={coinsToRefund}
+            refundState={refundState}
             shoppingList={shoppingList}
+            setRefundState={setRefundState}
+            onChangeBalance={onChangeBalance}
           />
 				</div>
 			</div>

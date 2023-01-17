@@ -1,36 +1,35 @@
-import { useState } from 'react';
+import { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
-const Item = ({ product, coinBalance, onBuy }) => {
+const Item = (props) => {
+	const { coinBalance, onBuy, product, refundState } = props;
   const { productImageUrl, name, price, availableUnits } = product;
-
 	const [availableCount, setAvailableCount] = useState(availableUnits);
 
-	const availablePrice = coinBalance >= price;
+  const disable = (coinBalance < price) || !availableCount || (refundState === 'completed');
 
 	const handleClick = () => {
-		if (price > coinBalance) return;
 		onBuy(product);
 		setAvailableCount(availableCount - 1);
 	};
 
-  return (
-    <Card className='text-center'>
-      <Card.Img src={productImageUrl} variant="top"/>
-      <Card.Body>
+	return (
+		<Card className='text-center'>
+			<Card.Img src={productImageUrl} variant="top"/>
+			<Card.Body>
 				<Card.Title>{name}</Card.Title>
 				<Card.Text>{`${price} рублей`}</Card.Text>
 				<Button
 					onClick={handleClick}
-					disabled={!availablePrice || availableCount < 1}
-					style={{'width': '95%'}}
+					disabled={disable}
+					style={{'width': '100%'}}
 				>
-					{availableCount < 1 ? 'Нет в наличии' : 'Купить'}
+					{availableCount ? 'Купить' : 'Нет в наличии'}
 				</Button>
-      </Card.Body>
-    </Card>
-  );
-}
+			</Card.Body>
+		</Card>
+	);
+};
 
 export default Item;

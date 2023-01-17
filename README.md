@@ -1,6 +1,6 @@
 # Vending Machine
 
-Test project for Renue.
+Test project for Renue.\
 The app was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Install

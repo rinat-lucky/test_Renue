@@ -8,7 +8,6 @@ class VendingAPI {
   };
 
   getProducts = async () => await this.getResource(`${this._apiBase}products`);
-  getCoinsToPay = async () => await this.getResource(`${this._apiBase}coinsToPay`);
   getCoinsToRefund = async () => await this.getResource(`${this._apiBase}coinsToRefund`);
 }
 

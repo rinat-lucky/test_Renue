@@ -1,19 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Col, Row } from "react-bootstrap";
-import RefundButton from "../refundButton/RefundButton";
+import VendingAPI from "../../api/VendingAPI";
+import RefundList from "../refundList/RefundList";
 
 const ControlPanel = (props) => {
-  const { coinBalance, onChangeBalance, coinsToPay, shoppingList } = props;
-  const [total, setTotal] = useState(coinBalance);
+  const { coinBalance, onChangeBalance, shoppingList, refundState, setRefundState } = props;
+  const [coinsToRefund, setCoinsToRefund] = useState([]);
+
+  const coinsToPay = [50, 100, 500, 1000];
+
+  const api = useMemo(() => {
+    return new VendingAPI();
+  }, []);
 
   useEffect(() => {
-    setTotal(coinBalance);
-  }, [coinBalance]);
+    const fetchData = async () => {
+      setCoinsToRefund(await api.getCoinsToRefund());
+    } 
+    fetchData();
+  }, [api]);
 
   const makeShopList = (list) => {
     const formedList = list.reduce((acc, item) => {
@@ -29,16 +39,36 @@ const ControlPanel = (props) => {
   const buttons = coinsToPay.map((item, i) => (
     <Col key={i}>
       <Button
-        onClick={() => onChangeBalance(total + item)}
+        onClick={() => onChangeBalance(coinBalance + item)}
         style={{'width': '100%'}}
+        disabled={refundState === 'completed'}
       >
         {item}
       </Button>
     </Col>
   ));
 
+  const renderAlert = () => {
+    if (refundState === 'completed') {
+      return (
+        <div className="mx-auto">Спасибо за покупку &#128578;</div>
+      );
+    }
+    return (
+      <>
+        <div>Доступная сумма: <span className="fw-bold">{coinBalance}</span> руб.</div>
+        <Button
+          onClick={() => setRefundState('requested')}
+          disabled={coinBalance < 1}
+        >
+          Получить сдачу
+        </Button>
+      </>
+    );
+  };
+
   const renderShopList = () => {
-    if (shoppingList.length < 1) return '';
+    if (shoppingList.length < 1) return;
     const shopList = makeShopList(shoppingList);
 
     return (
@@ -58,17 +88,15 @@ const ControlPanel = (props) => {
     );
   };
 
-  const renderRefund = () => {
+  const renderRefundList = () => {
+    if (!refundState) return;
+    
     return (
-      <Card>
-        <Card.Header className='text-center'>Сдача: {'500 рублей'}</Card.Header>
-        <ListGroup variant="flush">
-          <ListGroup.Item className="d-flex justify-content-between align-items-center">
-            <div>{'100'} рублей</div>  
-            <Badge>{'5'}</Badge>
-          </ListGroup.Item>
-        </ListGroup>
-      </Card>
+      <RefundList
+        sumToRefund={coinBalance}
+        setRefundState={setRefundState}
+        coinsToRefund={coinsToRefund}
+      />
     );
   };
 
@@ -76,7 +104,7 @@ const ControlPanel = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-10 d-flex flex-column">
-          <Card className="mb-4">
+          <Card className="mb-5">
             <Card.Header className='text-center'>Внесите деньги</Card.Header>
             <Card.Body>
               <Row xs={1} md={4} className="g-1">
@@ -86,19 +114,14 @@ const ControlPanel = (props) => {
           </Card>
           <Alert
             variant="success"
-            className="d-flex flex-row justify-content-between align-items-center mb-4 text-left"
+            className="d-flex flex-row justify-content-between align-items-center mb-5"
           >
-            <div>Доступная сумма: <span className="fw-bold">{total}</span> руб.</div>
-            <RefundButton toRefund={total} />
+            {renderAlert()}
           </Alert>
 
           <Row xs={1} md={2} className="g-3">
-            <Col>
-              {renderShopList()}
-            </Col>  
-            <Col>  
-              {renderRefund()}
-            </Col>
+            <Col>{renderShopList()}</Col>  
+            <Col>{renderRefundList()}</Col>
           </Row>
         </div>
       </div>
