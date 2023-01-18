@@ -1,5 +1,5 @@
 class VendingAPI {
-  _apiBase = 'http://localhost:3001/';
+  _apiBase = "http://localhost:3001/";
   
   getResource = async (url) => {
     const res = await fetch(url);

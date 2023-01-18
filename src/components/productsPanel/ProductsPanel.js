@@ -1,35 +1,41 @@
-import { useState, useEffect, useMemo } from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
-import VendingAPI from "../../api/VendingAPI";
-import Item from "../item/Item";
 
 const ProductsPanel = (props) => {
-	const { coinBalance, onBuy, refundState } = props;
-	const [products, setProducts] = useState([]);
-
-  const api = useMemo(() => {
-    return new VendingAPI();
-  }, []);
-
-	useEffect(() => {
-    const fetchData = async () => setProducts(await api.getProducts());
-    fetchData();
-  }, [api]);
+	const { coinBalance, onBuy, refundState, products } = props;
 	
+	const renderItems = () => {
+		return products.map((product) => {
+			const { id, productImageUrl, name, price, availableUnits } = product;
+			const disable = (coinBalance < price)
+				|| !availableUnits
+				|| (refundState === "completed");
+
+			return (
+				<Col key={id}>
+					<Card className="text-center">
+						<Card.Img src={productImageUrl} variant="top" alt={name} />
+						<Card.Body>
+							<Card.Title>{name}</Card.Title>
+							<Card.Text>{price} &#8381;</Card.Text>
+							<Button
+								onClick={() => onBuy(product)}
+								disabled={disable}
+								style={{"width": "100%"}}
+							>
+								{availableUnits ? "Купить" : "Нет в наличии"}
+							</Button>
+						</Card.Body>
+					</Card>
+				</Col>
+			);
+		})
+	};
+
 	return (
 		<Row xs={1} md={4} className="g-3">
-			{products && products.map((product) => {
-				return (
-					<Col key={product.id}>
-						<Item 
-							onBuy={onBuy}
-							product={product}
-							refundState={refundState}
-							coinBalance={coinBalance}
-						/>
-					</Col>
-				);
-			})}
+			{renderItems()}
 		</Row>
   );
 }

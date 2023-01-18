@@ -1,18 +1,37 @@
 import { useEffect, useMemo, useState } from "react";
-import Alert from 'react-bootstrap/Alert';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import Alert from "react-bootstrap/Alert";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
 import { Col, Row } from "react-bootstrap";
 import VendingAPI from "../../api/VendingAPI";
 import RefundList from "../refundList/RefundList";
 
 const ControlPanel = (props) => {
-  const { coinBalance, onChangeBalance, shoppingList, refundState, setRefundState } = props;
+  const {
+		coinBalance,
+		onChangeBalance,
+		shoppingList,
+		refundState,
+		setRefundState,
+		products,
+	} = props;
   const [coinsToRefund, setCoinsToRefund] = useState([]);
 
   const coinsToPay = [50, 100, 500, 1000];
+
+  const buttons = coinsToPay.map((item, i) => (
+    <Col key={i}>
+      <Button
+        onClick={() => onChangeBalance(coinBalance + item)}
+        style={{"width": "100%"}}
+        disabled={refundState === "completed"}
+      >
+        {item}
+      </Button>
+    </Col>
+  ));
 
   const api = useMemo(() => {
     return new VendingAPI();
@@ -36,20 +55,8 @@ const ControlPanel = (props) => {
     return sortedList;
   };
 
-  const buttons = coinsToPay.map((item, i) => (
-    <Col key={i}>
-      <Button
-        onClick={() => onChangeBalance(coinBalance + item)}
-        style={{'width': '100%'}}
-        disabled={refundState === 'completed'}
-      >
-        {item}
-      </Button>
-    </Col>
-  ));
-
   const renderAlert = () => {
-    if (refundState === 'completed') {
+    if (refundState === "completed") {
       return (
         <div className="mx-auto">Спасибо за покупку &#128578;</div>
       );
@@ -58,8 +65,8 @@ const ControlPanel = (props) => {
       <>
         <div>Доступная сумма: <span className="fw-bold">{coinBalance}</span> руб.</div>
         <Button
-          onClick={() => setRefundState('requested')}
-          disabled={coinBalance < 1}
+          onClick={() => setRefundState("requested")}
+          disabled={!coinBalance}
         >
           Получить сдачу
         </Button>
@@ -73,12 +80,12 @@ const ControlPanel = (props) => {
 
     return (
       <Card>
-        <Card.Header className='text-center'>Список покупок</Card.Header>
+        <Card.Header className="text-center">Список покупок</Card.Header>
         <ListGroup variant="flush" as="ol" numbered>
           {shopList.map((item) => {
             return (
               <ListGroup.Item key={item[0]} className="d-flex justify-content-between align-items-center" as="li">
-                <div className='ms-2 me-auto'>{item[0]}</div>  
+                <div className="ms-2 me-auto">{item[0]}</div>  
                 <Badge>{item[1]}</Badge>
               </ListGroup.Item>
             );
@@ -93,9 +100,10 @@ const ControlPanel = (props) => {
     
     return (
       <RefundList
-        sumToRefund={coinBalance}
+        products={products}
+				sumToRefund={coinBalance}
+				coinsToRefund={coinsToRefund}
         setRefundState={setRefundState}
-        coinsToRefund={coinsToRefund}
       />
     );
   };
@@ -104,8 +112,8 @@ const ControlPanel = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-10 d-flex flex-column">
-          <Card className="mb-5">
-            <Card.Header className='text-center'>Внесите деньги</Card.Header>
+          <Card className="mb-3">
+            <Card.Header className="text-center">Внесите деньги</Card.Header>
             <Card.Body>
               <Row xs={1} md={4} className="g-1">
                 {buttons}
@@ -114,7 +122,7 @@ const ControlPanel = (props) => {
           </Card>
           <Alert
             variant="success"
-            className="d-flex flex-row justify-content-between align-items-center mb-5"
+            className="d-flex flex-row justify-content-between align-items-center mb-3"
           >
             {renderAlert()}
           </Alert>
