@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import PropTypes from 'prop-types';
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -148,5 +149,21 @@ const RefundList = (props) => {
     </Card>
   );
 };
+
+RefundList.propTypes = {
+  sumToRefund: PropTypes.number.isRequired,
+  setRefundState: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(PropTypes.exact({
+    name: PropTypes.string,
+		productImageUrl: PropTypes.string,
+		id: PropTypes.number, 
+		price: PropTypes.number, 
+		availableUnits: PropTypes.number,
+  })).isRequired,
+  coinsToRefund: PropTypes.arrayOf(PropTypes.exact({
+    denomination: PropTypes.number,
+    quantity: PropTypes.number,
+  })).isRequired,
+}
 
 export default RefundList;

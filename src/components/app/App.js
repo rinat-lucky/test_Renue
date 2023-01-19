@@ -6,7 +6,7 @@ import ControlPanel from "../controlPanel/ControlPanel";
 const App = () => {
   const [availableProducts, setAvailableProducts] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
-  const [refundState, setRefundState] = useState(null);
+  const [refundState, setRefundState] = useState('');
   const [coinBalance, setBalance] = useState(0);
 
   const api = useMemo(() => {

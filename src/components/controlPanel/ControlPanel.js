@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import PropTypes from 'prop-types';
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
@@ -135,6 +136,21 @@ const ControlPanel = (props) => {
       </div>
     </div>
   );
+};
+
+ControlPanel.propTypes = {
+  refundState: PropTypes.string.isRequired,
+  coinBalance: PropTypes.number.isRequired,
+  setRefundState: PropTypes.func.isRequired,
+  onChangeBalance: PropTypes.func.isRequired,
+  shoppingList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  products: PropTypes.arrayOf(PropTypes.exact({
+    name: PropTypes.string,
+		productImageUrl: PropTypes.string,
+		id: PropTypes.number, 
+		price: PropTypes.number, 
+		availableUnits: PropTypes.number,
+  })).isRequired,
 }
 
 export default ControlPanel;

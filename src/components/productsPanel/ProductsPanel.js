@@ -1,9 +1,15 @@
+import PropTypes from 'prop-types';
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
 
 const ProductsPanel = (props) => {
-	const { coinBalance, onBuy, refundState, products } = props;
+	const {
+		coinBalance,
+		onBuy,
+		refundState,
+		products,
+	} = props;
 	
 	const renderItems = () => {
 		return products.map((product) => {
@@ -38,6 +44,19 @@ const ProductsPanel = (props) => {
 			{renderItems()}
 		</Row>
   );
+};
+
+ProductsPanel.propTypes = {
+  onBuy: PropTypes.func.isRequired,
+	refundState: PropTypes.string.isRequired,
+  coinBalance: PropTypes.number.isRequired,
+	products: PropTypes.arrayOf(PropTypes.exact({
+    name: PropTypes.string,
+		productImageUrl: PropTypes.string,
+		id: PropTypes.number, 
+		price: PropTypes.number, 
+		availableUnits: PropTypes.number,
+  })).isRequired,
 }
 
 export default ProductsPanel;
