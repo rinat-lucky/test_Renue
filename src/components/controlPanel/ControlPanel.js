@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import PropTypes from 'prop-types';
 
 import Alert from "react-bootstrap/Alert";
 import Badge from "react-bootstrap/Badge";
@@ -8,7 +7,15 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Col, Row } from "react-bootstrap";
 
-import { makeShopList } from "../../utils";
+import { makeShopList } from "../utils";
+import {
+  products,
+  coinBalance,
+  refundState,
+  shoppingList,
+  setRefundState,
+  onChangeBalance,
+} from "../propTypes";
 import VendingAPI from "../../api/VendingAPI";
 import RefundList from "../refundList/RefundList";
 
@@ -92,7 +99,7 @@ const ControlPanel = (props) => {
     return (
       <RefundList
         products={products}
-				sumToRefund={coinBalance}
+				coinBalance={coinBalance}
 				coinsToRefund={coinsToRefund}
         setRefundState={setRefundState}
       />
@@ -124,18 +131,12 @@ const ControlPanel = (props) => {
 };
 
 ControlPanel.propTypes = {
-  refundState: PropTypes.string.isRequired,
-  coinBalance: PropTypes.number.isRequired,
-  setRefundState: PropTypes.func.isRequired,
-  onChangeBalance: PropTypes.func.isRequired,
-  shoppingList: PropTypes.arrayOf(PropTypes.string).isRequired,
-  products: PropTypes.arrayOf(PropTypes.exact({
-    name: PropTypes.string,
-		productImageUrl: PropTypes.string,
-		id: PropTypes.number, 
-		price: PropTypes.number, 
-		availableUnits: PropTypes.number,
-  })).isRequired,
+  products,
+  coinBalance,
+  refundState,
+  shoppingList,
+  setRefundState,
+  onChangeBalance,
 };
 
 export default ControlPanel;

@@ -23,9 +23,7 @@ const App = () => {
     return availableProducts;
   }
 
-  const onChangeBalance = (total) => {
-    setBalance(total);
-  };
+  const onChangeBalance = (total) => setBalance(total);
 
   const onBuy = (product) => {
     setBalance(coinBalance - product.price);

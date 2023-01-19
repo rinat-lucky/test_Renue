@@ -5,8 +5,8 @@ export const reduce = (collection) => {
   }, {});
 }; 
 
-export const makeShopList = (rawList) => {
-  const formedList = reduce(rawList);
+export const makeShopList = (collection) => {
+  const formedList = reduce(collection);
   const sortedList = Object.entries(formedList);
   sortedList.sort((a, b) => b[1] - a[1]);
   return sortedList;

@@ -1,19 +1,14 @@
 import { useEffect, useMemo } from "react";
-import PropTypes from 'prop-types';
 
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import { reduce } from "../../utils";
+import { reduce } from "../utils";
+import { coinBalance, setRefundState, coinsToRefund, products } from "../propTypes";
 
 const RefundList = (props) => {
-  const {
-		sumToRefund,
-		setRefundState,
-		coinsToRefund,
-		products,
-	} = props;
+  const { coinBalance, setRefundState, coinsToRefund, products } = props;
 
   useEffect(() => {
     setRefundState('completed');
@@ -32,13 +27,13 @@ const RefundList = (props) => {
   }, [coinsToRefund]);
 
   const refundList = useMemo(() => {
-    let sum = sumToRefund;
+    let sum = coinBalance;
     let refundCoinsList = [];
 
     for (let coin of totalCoinsList) {
       if (coin > sum) continue;
       refundCoinsList = [...refundCoinsList, coin];
-      sum = sum - coin;
+      sum -= coin;
     }
 
     const formedRefundList = reduce(refundCoinsList);
@@ -49,7 +44,7 @@ const RefundList = (props) => {
 			refund: sortedRefundList,
 			remainder: sum,
 		};
-  }, [sumToRefund, totalCoinsList]);
+  }, [coinBalance, totalCoinsList]);
 
   const availableProductsList = useMemo(() => {
     let productsList = [];
@@ -71,7 +66,7 @@ const RefundList = (props) => {
     for (let product of availableProductsList) {
       if (product.price > sum) continue;
       additionalProductsList = [...additionalProductsList, product.name];
-      sum = sum - product.price;
+      sum -= product.price;
     }
 
     const formedAdditionalProductsList = reduce(additionalProductsList);
@@ -127,15 +122,13 @@ const RefundList = (props) => {
     <Card>
 			<Card.Header className="d-flex justify-content-between">
         <div>Сдача (всего):</div> 
-        <div>{sumToRefund} &#8381;</div>
+        <div>{coinBalance} &#8381;</div>
       </Card.Header>
-      <ListGroup variant="flush">
-        {renderRefundList()}
-      </ListGroup>
+      <ListGroup variant="flush">{renderRefundList()}</ListGroup>
 			<Card.Footer className="text-end">
 				<div className="d-flex justify-content-between">
           <div>Выдано:</div> 
-          <div>{sumToRefund - refundList.remainder} &#8381;</div>
+          <div>{coinBalance - refundList.remainder} &#8381;</div>
         </div>
         {renderAdditionalProducts()}
 			</Card.Footer>
@@ -144,20 +137,6 @@ const RefundList = (props) => {
   );
 };
 
-RefundList.propTypes = {
-  sumToRefund: PropTypes.number.isRequired,
-  setRefundState: PropTypes.func.isRequired,
-  products: PropTypes.arrayOf(PropTypes.exact({
-    name: PropTypes.string,
-		productImageUrl: PropTypes.string,
-		id: PropTypes.number, 
-		price: PropTypes.number, 
-		availableUnits: PropTypes.number,
-  })).isRequired,
-  coinsToRefund: PropTypes.arrayOf(PropTypes.exact({
-    denomination: PropTypes.number,
-    quantity: PropTypes.number,
-  })).isRequired,
-};
+RefundList.propTypes = {products, coinBalance, coinsToRefund, setRefundState};
 
 export default RefundList;
