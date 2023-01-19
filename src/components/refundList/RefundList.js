@@ -1,8 +1,11 @@
 import { useEffect, useMemo } from "react";
 import PropTypes from 'prop-types';
+
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+
+import { reduce } from "../../utils";
 
 const RefundList = (props) => {
   const {
@@ -38,11 +41,7 @@ const RefundList = (props) => {
       sum = sum - coin;
     }
 
-    const formedRefundList = refundCoinsList.reduce((acc, item) => {
-      acc[item] = (acc[item] || 0) + 1;
-      return acc;
-    }, {});
-
+    const formedRefundList = reduce(refundCoinsList);
     const sortedRefundList = Object.entries(formedRefundList);
     sortedRefundList.sort((a, b) => b[0] - a[0]);
 
@@ -75,11 +74,7 @@ const RefundList = (props) => {
       sum = sum - product.price;
     }
 
-    const formedAdditionalProductsList = additionalProductsList.reduce((acc, item) => {
-      acc[item] = (acc[item] || 0) + 1;
-      return acc;
-    }, {});
-
+    const formedAdditionalProductsList = reduce(additionalProductsList);
     const sortedAdditionalProductsList = Object.entries(formedAdditionalProductsList);
     sortedAdditionalProductsList.sort((a, b) => b[1] - a[1]);
 
@@ -87,7 +82,6 @@ const RefundList = (props) => {
 			products: sortedAdditionalProductsList,
 			remainder: sum,
 		};
-
   }, [refundList.remainder, availableProductsList]);
 
   const renderRefundList = () => {
@@ -164,6 +158,6 @@ RefundList.propTypes = {
     denomination: PropTypes.number,
     quantity: PropTypes.number,
   })).isRequired,
-}
+};
 
 export default RefundList;

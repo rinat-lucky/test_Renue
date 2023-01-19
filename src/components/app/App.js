@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+
 import VendingAPI from "../../api/VendingAPI";
 import ProductsPanel from "../productsPanel/ProductsPanel";
 import ControlPanel from "../controlPanel/ControlPanel";
@@ -9,9 +10,7 @@ const App = () => {
   const [refundState, setRefundState] = useState('');
   const [coinBalance, setBalance] = useState(0);
 
-  const api = useMemo(() => {
-    return new VendingAPI();
-  }, []);
+  const api = useMemo(() => new VendingAPI(), []);
 
 	useEffect(() => {
     const fetchData = async () => setAvailableProducts(await api.getProducts());

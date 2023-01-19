@@ -3,6 +3,8 @@
 Test project for Renue.\
 The app was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/62ad09220f0308c351bc/maintainability)](https://codeclimate.com/github/rinat-lucky/test_Renue/maintainability)
+
 ## Install
 
 To install the app locally:
