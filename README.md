@@ -4,6 +4,7 @@ Test project for Renue.\
 Link to app on [Firebase](https://vending-machine-rinat.web.app)
 
 [![Linter](https://github.com/rinat-lucky/test_Renue/actions/workflows/linter.yml/badge.svg?event=push)](https://github.com/rinat-lucky/test_Renue/actions/workflows/linter.yml)
+[![Deploy to Firebase](https://github.com/rinat-lucky/test_Renue/actions/workflows/firebase-hosting-merge.yml/badge.svg?branch=main&event=push)](https://github.com/rinat-lucky/test_Renue/actions/workflows/firebase-hosting-merge.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/62ad09220f0308c351bc/maintainability)](https://codeclimate.com/github/rinat-lucky/test_Renue/maintainability)
 
 ## Install
