@@ -38,6 +38,11 @@ const ProductsPanel = (props) => {
   );
 };
 
-ProductsPanel.propTypes = {onBuy, products, refundState, coinBalance};
+ProductsPanel.propTypes = {
+	onBuy,
+	products,
+	refundState,
+	coinBalance,
+};
 
 export default ProductsPanel;

@@ -1,7 +1,7 @@
 # Vending Machine
 
 Test project for Renue.\
-The app was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app was bootstrapped with Create React App.
 
 [![Linter](https://github.com/rinat-lucky/test_Renue/actions/workflows/linter.yml/badge.svg?event=push)](https://github.com/rinat-lucky/test_Renue/actions/workflows/linter.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/62ad09220f0308c351bc/maintainability)](https://codeclimate.com/github/rinat-lucky/test_Renue/maintainability)
@@ -33,6 +33,15 @@ To build the app for production:
 npm run build
 ```
 
+### Стек технологий
+
+* React
+* React Hooks
+* Bootstrap
+* JSON-server
+* GitHub Actions
+* CodeClimate
+
 ### Описание работы приложения
 
 * Вендинговый аппарат принимает деньги (банкноты) 4-х разных номиналов. Внесение денег в аппарат происходит по клику на кнопке с соответствующим номиналом. Внесенные деньги отражаются в поле "Доступная сумма"
@@ -49,4 +58,6 @@ npm run build
   * данные о выданной сумме денег и выданных т.н. "дополнительных" товарах отображаются в поле "Выдано"
   * если после всех проведенных расчетов остался невыданный остаток сдачи (когда закончились товары либо остаток меньше стоимости любого из доступных товаров), то этот остаток отображается в поле "Остаток"
   
+### Скриншот работы приложения
+
 ![vending](https://user-images.githubusercontent.com/64750426/213443768-b5345afc-0bcc-4cc7-b673-99a468bd287c.jpg)

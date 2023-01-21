@@ -12,6 +12,8 @@ export const onBuy = PropTypes.func.isRequired;
 
 export const shoppingList = PropTypes.arrayOf(PropTypes.string).isRequired;
 
+export const extraProducts = PropTypes.arrayOf(PropTypes.array);
+
 export const products = PropTypes.arrayOf(PropTypes.exact({
   name: PropTypes.string,
   productImageUrl: PropTypes.string,

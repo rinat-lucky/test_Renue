@@ -4,8 +4,14 @@ import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import { reduce } from "../utils";
-import { coinBalance, setRefundState, coinsToRefund, products } from "../propTypes";
+import ExtraProductsList from "../extraProductsList/ExtraProductsList";
+import { makeSortedList } from "../utils";
+import {
+  coinBalance,
+  setRefundState,
+  coinsToRefund,
+  products,
+} from "../propTypes";
 
 const RefundList = (props) => {
   const { coinBalance, setRefundState, coinsToRefund, products } = props;
@@ -36,12 +42,8 @@ const RefundList = (props) => {
       sum -= coin;
     }
 
-    const formedRefundList = reduce(refundCoinsList);
-    const sortedRefundList = Object.entries(formedRefundList);
-    sortedRefundList.sort((a, b) => b[0] - a[0]);
-
     return {
-			refund: sortedRefundList,
+      refund: makeSortedList(refundCoinsList, 0),
 			remainder: sum,
 		};
   }, [coinBalance, totalCoinsList]);
@@ -58,23 +60,19 @@ const RefundList = (props) => {
     return productsList;
   }, [products]);
 
-  const additionalProducts = useMemo(() => {
+  const extraProducts = useMemo(() => {
     if (!refundList.remainder) return;
     let sum = refundList.remainder;
-    let additionalProductsList = [];
+    let extraProductsList = [];
 
     for (let product of availableProductsList) {
       if (product.price > sum) continue;
-      additionalProductsList = [...additionalProductsList, product.name];
+      extraProductsList = [...extraProductsList, product.name];
       sum -= product.price;
     }
 
-    const formedAdditionalProductsList = reduce(additionalProductsList);
-    const sortedAdditionalProductsList = Object.entries(formedAdditionalProductsList);
-    sortedAdditionalProductsList.sort((a, b) => b[1] - a[1]);
-
     return {
-			products: sortedAdditionalProductsList,
+      products: makeSortedList(extraProductsList, 1),
 			remainder: sum,
 		};
   }, [refundList.remainder, availableProductsList]);
@@ -90,30 +88,13 @@ const RefundList = (props) => {
     });
   };
 
-  const renderAdditionalProducts = () => {
-    if (!additionalProducts) return;
-
-    return (
-      <div className="mt-1">
-        {additionalProducts.products.map((product) => {
-          return (
-            <div key={product[0]} className="d-flex justify-content-between align-items-center">
-              <div>{product[0]}</div>  
-              <Badge>{product[1]}</Badge>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
 	const renderRemainder = () => {
-		if (!additionalProducts) return;
+		if (!extraProducts || extraProducts.remainder === 0) return;
 
 		return (
 			<Card.Footer className="d-flex justify-content-between">
         <div>Остаток:</div> 
-        <div>{additionalProducts.remainder} &#8381;</div>
+        <div>{extraProducts.remainder} &#8381;</div>
 			</Card.Footer>
 		);
 	};
@@ -130,13 +111,18 @@ const RefundList = (props) => {
           <div>Выдано:</div> 
           <div>{coinBalance - refundList.remainder} &#8381;</div>
         </div>
-        {renderAdditionalProducts()}
+        {extraProducts && (<ExtraProductsList extraProducts={extraProducts.products}/>)}
 			</Card.Footer>
 			{renderRemainder()}
     </Card>
   );
 };
 
-RefundList.propTypes = {products, coinBalance, coinsToRefund, setRefundState};
+RefundList.propTypes = {
+  products,
+  coinBalance,
+  coinsToRefund,
+  setRefundState,
+};
 
 export default RefundList;

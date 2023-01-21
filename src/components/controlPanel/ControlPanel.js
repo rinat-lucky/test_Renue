@@ -7,7 +7,9 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Col, Row } from "react-bootstrap";
 
-import { makeShopList } from "../utils";
+import RefundList from "../refundList/RefundList";
+import { makeSortedList } from "../utils";
+import VendingAPI from "../../api/VendingAPI";
 import {
   products,
   coinBalance,
@@ -16,8 +18,6 @@ import {
   setRefundState,
   onChangeBalance,
 } from "../propTypes";
-import VendingAPI from "../../api/VendingAPI";
-import RefundList from "../refundList/RefundList";
 
 const coinsToPay = [50, 100, 500, 1000];
 
@@ -61,7 +61,7 @@ const ControlPanel = (props) => {
       case "requested":
         return (
           <>
-            <div>Доступная сумма: <span className="fw-bold">{coinBalance}</span> руб.</div>
+            <div>Доступная сумма: <span className="fw-bold">{coinBalance}</span> рублей</div>
             <Button onClick={() => setRefundState("requested")} disabled={!coinBalance}>
               Получить сдачу
             </Button>
@@ -74,7 +74,7 @@ const ControlPanel = (props) => {
 
   const renderShopList = () => {
     if (shoppingList.length < 1) return;
-    const shopList = makeShopList(shoppingList);
+    const shopList = makeSortedList(shoppingList, 1);
 
     return (
       <Card>
