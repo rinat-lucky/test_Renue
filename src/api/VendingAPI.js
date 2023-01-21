@@ -1,5 +1,5 @@
 class VendingAPI {
-  _apiBase = "http://localhost:3001/";
+  _apiBase = "https://my-json-server.typicode.com/rinat-lucky/test_Renue/";
   
   getResource = async (url) => {
     const res = await fetch(url);
