@@ -2,7 +2,12 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
 
-import { coinBalance, onBuy, refundState, products } from '../propTypes';
+import {
+	coinBalance,
+	onBuy,
+	refundState,
+	products,
+} from '../propTypes';
 
 const ProductsPanel = (props) => {
 	const { coinBalance, onBuy, refundState, products } = props;
@@ -31,11 +36,7 @@ const ProductsPanel = (props) => {
 		);
 	});
 
-	return (
-		<Row xs={1} md={4} className="g-3">
-			{renderItems()}
-		</Row>
-  );
+	return (<Row xs={1} md={4} className="g-3">{renderItems()}</Row>);
 };
 
 ProductsPanel.propTypes = {

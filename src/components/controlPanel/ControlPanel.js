@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 
 import Alert from "react-bootstrap/Alert";
-import Badge from "react-bootstrap/Badge";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
 import { Col, Row } from "react-bootstrap";
 
 import RefundList from "../refundList/RefundList";
-import { makeSortedList } from "../utils";
+import ShopList from "../shopList/ShopList";
+import BalanceBlock from "../balanceBlock/BalanceBlock";
+import PaymentsBlock from "../paymentsBlock/PaymentsBlock";
+
 import VendingAPI from "../../api/VendingAPI";
 import {
   products,
@@ -18,8 +18,6 @@ import {
   setRefundState,
   onChangeBalance,
 } from "../propTypes";
-
-const coinsToPay = [50, 100, 500, 1000];
 
 const ControlPanel = (props) => {
   const {
@@ -39,91 +37,38 @@ const ControlPanel = (props) => {
     fetchData();
   }, [api]);
 
-  const buttons = coinsToPay.map((item, i) => (
-    <Col key={i}>
-      <Button
-        onClick={() => onChangeBalance(coinBalance + item)}
-        style={{"width": "100%"}}
-        disabled={refundState === "completed"}
-      >
-        {item}
-      </Button>
-    </Col>
-  ));
-
-  const renderAlert = () => {
-    switch (refundState) {
-      case "completed": 
-        return (
-          <div className="mx-auto">Спасибо за покупку &#128578;</div>
-        );
-      case "":
-      case "requested":
-        return (
-          <>
-            <div>Доступная сумма: <span className="fw-bold">{coinBalance}</span> рублей</div>
-            <Button onClick={() => setRefundState("requested")} disabled={!coinBalance}>
-              Получить сдачу
-            </Button>
-          </>
-        );
-      default:
-        throw new Error(`Unknown refundState: ${refundState}`);
-    }
-  };
-
-  const renderShopList = () => {
-    if (shoppingList.length < 1) return;
-    const shopList = makeSortedList(shoppingList, 1);
-
-    return (
-      <Card>
-        <Card.Header className="text-center">Список покупок</Card.Header>
-        <ListGroup variant="flush" numbered>
-          {shopList.map((item) => {
-            return (
-              <ListGroup.Item key={item[0]} className="d-flex justify-content-between align-items-center">
-                <div className="ms-2 me-auto">{item[0]}</div>  
-                <Badge>{item[1]}</Badge>
-              </ListGroup.Item>
-            );
-          })}
-        </ListGroup>
-      </Card>
-    );
-  };
-
-  const renderRefundList = () => {
-    if (!refundState) return;
-    
-    return (
-      <RefundList
-        products={products}
-				coinBalance={coinBalance}
-				coinsToRefund={coinsToRefund}
-        setRefundState={setRefundState}
-      />
-    );
-  };
-
   return (  
     <Row>
       <Col className="d-flex flex-column">
         <Card className="mb-3">
           <Card.Header className="text-center">Внесите деньги</Card.Header>
-          <Card.Body>
-            <Row xs={1} md={4} className="g-1">
-              {buttons}
-            </Row>
-          </Card.Body>
+          <PaymentsBlock 
+            refundState={refundState}
+            coinBalance={coinBalance}
+            onChangeBalance={onChangeBalance}
+          />
         </Card>
         <Alert variant="success" className="d-flex flex-row justify-content-between align-items-center mb-3">
-          {renderAlert()}
+          <BalanceBlock
+            refundState={refundState}
+            coinBalance={coinBalance}
+            setRefundState={setRefundState}
+          />
         </Alert>
-
         <Row xs={1} md={2} className="g-3">
-          <Col>{renderShopList()}</Col>  
-          <Col>{renderRefundList()}</Col>
+          <Col>
+            {shoppingList.length > 0 && (<ShopList shoppingList={shoppingList}/>)}
+          </Col>  
+          <Col>
+            {(refundState !== '')
+              && (<RefundList
+                    products={products}
+                    coinBalance={coinBalance}
+                    coinsToRefund={coinsToRefund}
+                    setRefundState={setRefundState}
+                  />) 
+            }
+          </Col>
         </Row>
       </Col>
     </Row>

@@ -10,4 +10,4 @@ export const makeSortedList = (collection, index) => {
   const sortedList = Object.entries(formedList);
   sortedList.sort((a, b) => b[index] - a[index]);
   return sortedList;
-}
+};
