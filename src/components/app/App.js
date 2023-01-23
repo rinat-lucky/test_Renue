@@ -24,8 +24,6 @@ const App = () => {
     return availableProducts;
   }
 
-  const onChangeBalance = (total) => setBalance(total);
-
   const onBuy = (product) => {
     setBalance(coinBalance - product.price);
     setShoppingList([...shoppingList, product.name]);
@@ -45,12 +43,12 @@ const App = () => {
 				</div>
 				<div className="col-5">
 					<ControlPanel
+            setBalance={setBalance}
             coinBalance={coinBalance}
             refundState={refundState}
             shoppingList={shoppingList}
             products={availableProducts}
             setRefundState={setRefundState}
-            onChangeBalance={onChangeBalance}
           />
 				</div>
 			</div>

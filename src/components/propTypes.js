@@ -4,7 +4,7 @@ export const refundState = PropTypes.string.isRequired;
 
 export const coinBalance = PropTypes.number.isRequired;
 
-export const onChangeBalance = PropTypes.func.isRequired;
+export const setBalance = PropTypes.func.isRequired;
 
 export const setRefundState = PropTypes.func.isRequired;
 

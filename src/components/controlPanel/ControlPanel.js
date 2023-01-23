@@ -12,21 +12,21 @@ import PaymentsBlock from "../paymentsBlock/PaymentsBlock";
 import VendingAPI from "../../api/VendingAPI";
 import {
   products,
+  setBalance,
   coinBalance,
   refundState,
   shoppingList,
   setRefundState,
-  onChangeBalance,
 } from "../propTypes";
 
 const ControlPanel = (props) => {
   const {
 		products,
+    setBalance,
     coinBalance,
 		refundState,
     shoppingList,
 		setRefundState,
-		onChangeBalance,
 	} = props;
   const [coinsToRefund, setCoinsToRefund] = useState([]);
 
@@ -43,9 +43,9 @@ const ControlPanel = (props) => {
         <Card className="mb-3">
           <Card.Header className="text-center">Внесите деньги</Card.Header>
           <PaymentsBlock 
+            setBalance={setBalance}
             refundState={refundState}
             coinBalance={coinBalance}
-            onChangeBalance={onChangeBalance}
           />
         </Card>
         <Alert variant="success" className="d-flex flex-row justify-content-between align-items-center mb-3">
@@ -77,11 +77,11 @@ const ControlPanel = (props) => {
 
 ControlPanel.propTypes = {
   products,
+  setBalance,
   coinBalance,
   refundState,
   shoppingList,
   setRefundState,
-  onChangeBalance,
 };
 
 export default ControlPanel;
