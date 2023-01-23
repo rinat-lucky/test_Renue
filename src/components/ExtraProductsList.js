@@ -1,5 +1,5 @@
 import Badge from "react-bootstrap/Badge";
-import { extraProducts } from "../propTypes";
+import { extraProducts } from "../utils/propTypes";
 
 const ExtraProductsList = ({ extraProducts }) => {
   return (

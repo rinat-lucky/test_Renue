@@ -4,14 +4,14 @@ import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import ExtraProductsList from "../extraProductsList/ExtraProductsList";
-import { makeSortedList } from "../utils";
+import ExtraProductsList from "./ExtraProductsList";
+import { makeSortedList } from "../utils/helpers";
 import {
   coinBalance,
   setRefundState,
   coinsToRefund,
   products,
-} from "../propTypes";
+} from "../utils/propTypes";
 
 const RefundList = (props) => {
   const { coinBalance, setRefundState, coinsToRefund, products } = props;

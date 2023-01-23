@@ -2,8 +2,8 @@ import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import { makeSortedList } from "../utils";
-import { shoppingList } from "../propTypes";
+import { makeSortedList } from "../utils/helpers";
+import { shoppingList } from "../utils/propTypes";
 
 const ShopList = ({ shoppingList }) => {
   const shopList = makeSortedList(shoppingList, 1);

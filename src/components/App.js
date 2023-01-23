@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 
-import ProductsPanel from "../productsPanel/ProductsPanel";
-import ControlPanel from "../controlPanel/ControlPanel";
+import ProductsPanel from "./ProductsPanel";
+import ControlPanel from "./ControlPanel";
 
-import VendingAPI from "../../api/VendingAPI";
+import VendingAPI from "../api/VendingAPI";
 
 const App = () => {
   const [availableProducts, setAvailableProducts] = useState([]);

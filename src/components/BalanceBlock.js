@@ -3,7 +3,7 @@ import {
   coinBalance,
   refundState,
   setRefundState,
-} from "../propTypes";
+} from "../utils/propTypes";
 
 const BalanceBlock = ({ refundState, coinBalance, setRefundState }) => {
   switch (refundState) {

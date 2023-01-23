@@ -4,12 +4,12 @@ import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
 
-import RefundList from "../refundList/RefundList";
-import ShopList from "../shopList/ShopList";
-import BalanceBlock from "../balanceBlock/BalanceBlock";
-import PaymentsBlock from "../paymentsBlock/PaymentsBlock";
+import RefundList from "./RefundList";
+import ShopList from "./ShopList";
+import BalanceBlock from "./BalanceBlock";
+import PaymentsBlock from "./PaymentsBlock";
 
-import VendingAPI from "../../api/VendingAPI";
+import VendingAPI from "../api/VendingAPI";
 import {
   products,
   setBalance,
@@ -17,7 +17,7 @@ import {
   refundState,
   shoppingList,
   setRefundState,
-} from "../propTypes";
+} from "../utils/propTypes";
 
 const ControlPanel = (props) => {
   const {

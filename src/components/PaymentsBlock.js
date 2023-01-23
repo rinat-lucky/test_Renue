@@ -6,7 +6,7 @@ import {
   setBalance,
   coinBalance,
   refundState,
-} from "../propTypes";
+} from "../utils/propTypes";
 
 const coinsToPay = [50, 100, 500, 1000];
 
