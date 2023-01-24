@@ -3,7 +3,6 @@ import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import { makeSortedList } from "../utils/helpers";
-import { shoppingList } from "../utils/propTypes";
 
 const ShopList = ({ shoppingList }) => {
   const shopList = makeSortedList(shoppingList, 1);
@@ -23,10 +22,6 @@ const ShopList = ({ shoppingList }) => {
       </ListGroup>
     </Card>
   );
-};
-
-ShopList.propTypes = {
-  shoppingList,
 };
 
 export default ShopList;

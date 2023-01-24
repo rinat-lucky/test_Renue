@@ -6,9 +6,9 @@ import ControlPanel from "./ControlPanel";
 
 import VendingAPI from "../api/VendingAPI";
 import { setProducts, buyProduct } from "../slices/productsSlice";
+import { addToShopList } from "../slices/shopListSlice";
 
 const App = () => {
-  const [shoppingList, setShoppingList] = useState([]);
   const [refundState, setRefundState] = useState('');
   const [coinBalance, setBalance] = useState(0);
 
@@ -23,7 +23,7 @@ const App = () => {
 
   const onBuy = (product) => {
     setBalance(coinBalance - product.price);
-    setShoppingList([...shoppingList, product.name]);
+    dispatch(addToShopList(product.name));
     dispatch(buyProduct(product));
   };
 
@@ -35,7 +35,6 @@ const App = () => {
             onBuy={onBuy}
             coinBalance={coinBalance}
             refundState={refundState}
-            // products={availableProducts}
           />
 				</div>
 				<div className="col-5">
@@ -43,8 +42,6 @@ const App = () => {
             setBalance={setBalance}
             coinBalance={coinBalance}
             refundState={refundState}
-            shoppingList={shoppingList}
-            // products={availableProducts}
             setRefundState={setRefundState}
           />
 				</div>

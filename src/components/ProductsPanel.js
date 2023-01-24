@@ -8,7 +8,6 @@ import {
 	coinBalance,
 	onBuy,
 	refundState,
-	// products,
 } from '../utils/propTypes';
 
 const ProductsPanel = (props) => {
@@ -45,7 +44,6 @@ const ProductsPanel = (props) => {
 
 ProductsPanel.propTypes = {
 	onBuy,
-	// products,
 	refundState,
 	coinBalance,
 };

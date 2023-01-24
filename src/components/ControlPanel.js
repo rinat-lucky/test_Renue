@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSelector } from 'react-redux';
 
 import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
@@ -14,17 +15,16 @@ import {
   setBalance,
   coinBalance,
   refundState,
-  shoppingList,
   setRefundState,
 } from "../utils/propTypes";
 
 const ControlPanel = (props) => {
-  
+  const shopList = useSelector((state) => state.shopList.value);
+
   const {
     setBalance,
     coinBalance,
 		refundState,
-    shoppingList,
 		setRefundState,
 	} = props;
   const [coinsToRefund, setCoinsToRefund] = useState([]);
@@ -56,7 +56,8 @@ const ControlPanel = (props) => {
         </Alert>
         <Row xs={1} md={2} className="g-3">
           <Col>
-            {shoppingList.length > 0 && (<ShopList shoppingList={shoppingList}/>)}
+            {console.log(shopList)}
+            {shopList.length > 0 && (<ShopList shoppingList={shopList}/>)}
           </Col>  
           <Col>
             {(refundState !== '')
@@ -77,7 +78,6 @@ ControlPanel.propTypes = {
   setBalance,
   coinBalance,
   refundState,
-  shoppingList,
   setRefundState,
 };
 

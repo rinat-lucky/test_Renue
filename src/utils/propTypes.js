@@ -10,8 +10,6 @@ export const setRefundState = PropTypes.func.isRequired;
 
 export const onBuy = PropTypes.func.isRequired;
 
-export const shoppingList = PropTypes.arrayOf(PropTypes.string).isRequired;
-
 export const extraProducts = PropTypes.arrayOf(PropTypes.array);
 
 export const coinsToRefund = PropTypes.arrayOf(PropTypes.exact({
