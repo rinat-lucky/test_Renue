@@ -8,6 +8,7 @@ import VendingAPI from "../api/VendingAPI";
 import { setProducts, buyProduct } from "../slices/productsSlice";
 import { addToShopList } from "../slices/shopListSlice";
 import { setBalance } from "../slices/balanceSlice";
+import { setCoins } from "../slices/refundSlice";
 
 const App = () => {
   const coinBalance = useSelector((state) => state.balance.value);
@@ -15,7 +16,10 @@ const App = () => {
   const api = useMemo(() => new VendingAPI(), []);
 
 	useEffect(() => {
-    const fetchData = async () => dispatch(setProducts(await api.getProducts()));
+    const fetchData = async () => {
+      dispatch(setProducts(await api.getProducts()));
+      dispatch(setCoins(await api.getCoinsToRefund()));
+    };
     fetchData();
   }, [api, dispatch]);
 

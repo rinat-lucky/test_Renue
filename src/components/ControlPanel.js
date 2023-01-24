@@ -1,5 +1,4 @@
-import { useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
@@ -10,19 +9,9 @@ import ShopList from "./ShopList";
 import BalanceBlock from "./BalanceBlock";
 import PaymentsBlock from "./PaymentsBlock";
 
-import VendingAPI from "../api/VendingAPI";
-import { setCoins } from "../slices/refundSlice";
-
 const ControlPanel = () => {
   const shopList = useSelector((state) => state.shopList.value);
   const refundState = useSelector((state) => state.refund.status);
-  const dispatch = useDispatch();
-  const api = useMemo(() => new VendingAPI(), []);
-
-  useEffect(() => {
-    const fetchData = async () => dispatch(setCoins(await api.getCoinsToRefund()));
-    fetchData();
-  }, [api, dispatch]);
 
   return (  
     <Row>
