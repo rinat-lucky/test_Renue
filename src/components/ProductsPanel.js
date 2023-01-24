@@ -4,16 +4,12 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
 
-import {
-	coinBalance,
-	onBuy,
-	refundState,
-} from '../utils/propTypes';
+import { onBuy } from '../utils/propTypes';
 
-const ProductsPanel = (props) => {
+const ProductsPanel = ({ onBuy }) => {
 	const products = useSelector((state) => state.products.value);
-	
-	const { coinBalance, onBuy, refundState } = props;
+	const coinBalance = useSelector((state) => state.balance.value);
+	const refundState = useSelector((state) => state.refund.status);
 	
 	const renderItems = () => products.map((product) => {
 		const { id, productImageUrl, name, price, availableUnits } = product;
@@ -28,8 +24,8 @@ const ProductsPanel = (props) => {
 						<Card.Text>{price} &#8381;</Card.Text>
 						<Button
 							onClick={() => onBuy(product)}
-							disabled={disable}
 							style={{"width": "100%"}}
+							disabled={disable}
 						>
 							{availableUnits ? "Купить" : "Нет в наличии"}
 						</Button>
@@ -42,10 +38,6 @@ const ProductsPanel = (props) => {
 	return (<Row xs={1} md={4} className="g-3">{renderItems()}</Row>);
 };
 
-ProductsPanel.propTypes = {
-	onBuy,
-	refundState,
-	coinBalance,
-};
+ProductsPanel.propTypes = { onBuy };
 
 export default ProductsPanel;

@@ -1,35 +1,31 @@
 import { useEffect, useMemo } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 
 import ExtraProductsList from "./ExtraProductsList";
+
+import { updateStatus } from "../slices/refundSlice";
 import { makeSortedList } from "../utils/helpers";
-import {
-  coinBalance,
-  setRefundState,
-  coinsToRefund,
-} from "../utils/propTypes";
 
-const RefundList = (props) => {
+const RefundList = () => {
   const products = useSelector((state) => state.products.value);
-
-  const { coinBalance, setRefundState, coinsToRefund } = props;
+  const coinBalance = useSelector((state) => state.balance.value);
+  const coinsToRefund = useSelector((state) => state.refund.coins);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setRefundState('completed');
-  }, [setRefundState]);
+    dispatch(updateStatus('completed'));
+  }, [dispatch]);
 
   const totalCoinsList = useMemo(() => {
     let coinsList = [];
-
     coinsToRefund.forEach((coin) => {
       const equalCoinsList = Array(coin.quantity).fill(coin.denomination);
       coinsList = [...coinsList, ...equalCoinsList];
     });
-
     coinsList.sort((a, b) => b - a);
     return coinsList;
   }, [coinsToRefund]);
@@ -37,7 +33,7 @@ const RefundList = (props) => {
   const refundList = useMemo(() => {
     let sum = coinBalance;
     let refundCoinsList = [];
-
+    
     for (let coin of totalCoinsList) {
       if (coin > sum) continue;
       refundCoinsList = [...refundCoinsList, coin];
@@ -52,12 +48,10 @@ const RefundList = (props) => {
 
   const availableProductsList = useMemo(() => {
     let productsList = [];
-
     products.forEach((product) => {
       const equalProductsList = Array(product.availableUnits).fill({name: product.name, price: product.price});
       productsList = [...productsList, ...equalProductsList];
     });
-
     productsList.sort((a, b) => b['price'] - a['price']);
     return productsList;
   }, [products]);
@@ -103,7 +97,7 @@ const RefundList = (props) => {
 
   return (
     <Card>
-			<Card.Header className="d-flex justify-content-between">
+      <Card.Header className="d-flex justify-content-between">
         <div>Сдача (всего):</div> 
         <div>{coinBalance} &#8381;</div>
       </Card.Header>
@@ -118,12 +112,6 @@ const RefundList = (props) => {
 			{renderRemainder()}
     </Card>
   );
-};
-
-RefundList.propTypes = {
-  coinBalance,
-  coinsToRefund,
-  setRefundState,
 };
 
 export default RefundList;
