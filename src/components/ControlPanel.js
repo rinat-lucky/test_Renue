@@ -11,7 +11,6 @@ import PaymentsBlock from "./PaymentsBlock";
 
 import VendingAPI from "../api/VendingAPI";
 import {
-  products,
   setBalance,
   coinBalance,
   refundState,
@@ -20,8 +19,8 @@ import {
 } from "../utils/propTypes";
 
 const ControlPanel = (props) => {
+  
   const {
-		products,
     setBalance,
     coinBalance,
 		refundState,
@@ -62,7 +61,6 @@ const ControlPanel = (props) => {
           <Col>
             {(refundState !== '')
               && (<RefundList
-                    products={products}
                     coinBalance={coinBalance}
                     coinsToRefund={coinsToRefund}
                     setRefundState={setRefundState}
@@ -76,7 +74,6 @@ const ControlPanel = (props) => {
 };
 
 ControlPanel.propTypes = {
-  products,
   setBalance,
   coinBalance,
   refundState,

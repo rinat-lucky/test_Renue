@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import { useSelector } from 'react-redux';
 
 import Badge from "react-bootstrap/Badge";
 import Card from "react-bootstrap/Card";
@@ -10,11 +11,12 @@ import {
   coinBalance,
   setRefundState,
   coinsToRefund,
-  products,
 } from "../utils/propTypes";
 
 const RefundList = (props) => {
-  const { coinBalance, setRefundState, coinsToRefund, products } = props;
+  const products = useSelector((state) => state.products.value);
+
+  const { coinBalance, setRefundState, coinsToRefund } = props;
 
   useEffect(() => {
     setRefundState('completed');
@@ -119,7 +121,6 @@ const RefundList = (props) => {
 };
 
 RefundList.propTypes = {
-  products,
   coinBalance,
   coinsToRefund,
   setRefundState,

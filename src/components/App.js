@@ -1,33 +1,30 @@
 import { useState, useEffect, useMemo } from "react";
+import { useDispatch } from 'react-redux';
 
 import ProductsPanel from "./ProductsPanel";
 import ControlPanel from "./ControlPanel";
 
 import VendingAPI from "../api/VendingAPI";
+import { setProducts, buyProduct } from "../slices/productsSlice";
 
 const App = () => {
-  const [availableProducts, setAvailableProducts] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
   const [refundState, setRefundState] = useState('');
   const [coinBalance, setBalance] = useState(0);
 
+  const dispatch = useDispatch();
+
   const api = useMemo(() => new VendingAPI(), []);
 
 	useEffect(() => {
-    const fetchData = async () => setAvailableProducts(await api.getProducts());
+    const fetchData = async () => dispatch(setProducts(await api.getProducts()));
     fetchData();
-  }, [api]);
-
-  const getUpdatedProducts = (purchasedProduct) => {
-    const targetProduct = availableProducts.find((product) => product.id === purchasedProduct.id);
-    targetProduct.availableUnits -= 1;
-    return availableProducts;
-  }
+  }, [api, dispatch]);
 
   const onBuy = (product) => {
     setBalance(coinBalance - product.price);
     setShoppingList([...shoppingList, product.name]);
-    setAvailableProducts(getUpdatedProducts(product));
+    dispatch(buyProduct(product));
   };
 
   return (
@@ -38,7 +35,7 @@ const App = () => {
             onBuy={onBuy}
             coinBalance={coinBalance}
             refundState={refundState}
-            products={availableProducts}
+            // products={availableProducts}
           />
 				</div>
 				<div className="col-5">
@@ -47,7 +44,7 @@ const App = () => {
             coinBalance={coinBalance}
             refundState={refundState}
             shoppingList={shoppingList}
-            products={availableProducts}
+            // products={availableProducts}
             setRefundState={setRefundState}
           />
 				</div>

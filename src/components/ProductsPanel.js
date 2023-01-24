@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "react-bootstrap";
@@ -6,11 +8,13 @@ import {
 	coinBalance,
 	onBuy,
 	refundState,
-	products,
+	// products,
 } from '../utils/propTypes';
 
 const ProductsPanel = (props) => {
-	const { coinBalance, onBuy, refundState, products } = props;
+	const products = useSelector((state) => state.products.value);
+	
+	const { coinBalance, onBuy, refundState } = props;
 	
 	const renderItems = () => products.map((product) => {
 		const { id, productImageUrl, name, price, availableUnits } = product;
@@ -41,7 +45,7 @@ const ProductsPanel = (props) => {
 
 ProductsPanel.propTypes = {
 	onBuy,
-	products,
+	// products,
 	refundState,
 	coinBalance,
 };

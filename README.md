@@ -38,6 +38,7 @@ npm run build
 
 * React
 * React Hooks
+* Redux Toolkit
 * Bootstrap
 * My-JSON-Server
 * Firebase
